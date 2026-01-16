@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lava Jato Los Primos</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>🧽 Lava Jato Los Primos</h1>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">Vagas Livres<span id="vagas-disponiveis">50</span></div>
+            <div class="stat-box">No Pátio<span id="vagas-ocupadas">0</span></div>
+            <div class="stat-box">Faturamento<span id="faturamento">R$ 0.00</span></div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="mudarAba('entrada')">
+                <i class="fas fa-sign-in-alt"></i> Entrada
+            </button>
+            <button class="tab-button" onclick="mudarAba('saida')">
+                <i class="fas fa-car"></i> Saída
+            </button>
+            <button class="tab-button" onclick="mudarAba('relatorio')">
+                <i class="fas fa-chart-bar"></i> Relatórios
+            </button>
+        </div>
+
+        <div id="entrada" class="tab-content active">
+            <div class="card">
+                <h3>Novo Cadastro</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Serviço</label>
+                        <select id="tipo-servico">
+                            <option value="25">Moto (R$ 25.00)</option>
+                            <option value="50" selected>Carro (R$ 50.00)</option>
+                            <option value="60">Carro Grande / Caminhão (R$ 60.00)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cor</label>
+                        <input type="text" id="cor-veiculo" placeholder="Ex: Azul">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Modelo</label>
+                        <input type="text" id="modelo-veiculo" placeholder="Ex: Onix">
+                    </div>
+                    <div class="form-group">
+                        <label>Placa</label>
+                        <input type="text" id="placa-veiculo" placeholder="ABC-1234">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="cadastrarEntrada()">Confirmar Entrada</button>
+            </div>
+        </div>
+
+        <div id="saida" class="tab-content">
+            <h3>Veículos no Pátio</h3>
+            <div id="lista-veiculos">
+                </div>
+        </div>
+
+        <div id="relatorio" class="tab-content">
+            <h3>Gerar Relatórios</h3>
+            <div class="card">
+                <label>Período:</label>
+                <select id="periodo-relatorio">
+                    <option value="diario">Hoje</option>
+                    <option value="semanal">Últimos 7 dias</option>
+                    <option value="mensal">Últimos 30 dias</option>
+                </select>
+                <button class="btn-primary" style="background: #28a745; margin-top: 15px;" onclick="baixarRelatorio()">
+                    <i class="fas fa-download"></i> Baixar Arquivo .txt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-btn" id="btn-flutuante">
+        <i class="fas fa-plus"></i>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

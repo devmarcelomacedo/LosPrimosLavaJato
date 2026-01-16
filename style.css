@@ -1,0 +1,206 @@
+/* 1. CONFIGURAÇÕES GERAIS (RESET) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que nada 'vaze' da tela */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --rosa: #ff2d55;
+    --fundo: #12141d;
+    --card: #1c1f2b;
+    --input: #2a2e3d;
+    --texto-secundario: #888;
+}
+
+body {
+    background-color: var(--fundo);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent; /* Remove brilho ao tocar no celular */
+}
+
+.container {
+    width: 100%;
+    max-width: 500px; /* Largura ideal para parecer um app no celular */
+    padding-bottom: 100px; /* Espaço para o botão flutuante não cobrir nada */
+}
+
+/* 2. CABEÇALHO E STATUS */
+.header h1 {
+    font-size: 22px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.stat-box {
+    background: var(--card);
+    padding: 12px 5px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--texto-secundario);
+}
+
+.stat-box span {
+    display: block;
+    font-size: 18px;
+    color: var(--rosa);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* 3. MENU DE ABAS */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    color: var(--texto-secundario);
+    padding: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab-button.active {
+    color: var(--rosa);
+    border-bottom: 3px solid var(--rosa);
+    font-weight: bold;
+}
+
+/* 4. FORMULÁRIO RESPONSIVO (CORREÇÃO DO VAZAMENTO) */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.card h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+/* A Mágica para não vazar: form-row com flex-wrap */
+.form-row {
+    display: flex;
+    flex-wrap: wrap; /* Se não couber lado a lado, ele pula linha */
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1; /* Divide o espaço igualmente */
+    min-width: 180px; /* Se a tela for menor que isso, o campo desce */
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 13px;
+    color: var(--texto-secundario);
+    margin-bottom: 6px;
+}
+
+input, select {
+    background: var(--input);
+    border: 1px solid #333;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%; /* Ocupa 100% do grupo dele */
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--rosa);
+}
+
+.btn-primary {
+    background: var(--rosa);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* 5. LISTA DE VEÍCULOS (SAÍDA) */
+.card-veiculo {
+    background: var(--card);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid var(--rosa);
+}
+
+.btn-saida {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 6. ÍCONE FLUTUANTE (ESTILO APP) */
+.floating-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: var(--rosa);
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(255, 45, 85, 0.4);
+    z-index: 1000;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-btn:active {
+    transform: scale(0.85);
+}
