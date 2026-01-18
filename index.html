@@ -3,15 +3,184 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lava Jato Los Primos</title>
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="apple-touch-icon" href="img/favicon.png">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #12121b;
+            --card-bg: #1e1e26;
+            --primary: #ff2d55;
+            --text: #ffffff;
+            --text-dim: #a0a0a5;
+            --input-bg: #2a2a35;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            padding: 15px 5px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .stat-box span {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 5px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            background: var(--input-bg);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Lista de Veículos */
+        .veiculo-item {
+            background: var(--input-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .veiculo-info h4 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .veiculo-info p {
+            margin: 2px 0 0;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .btn-saida {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Relatórios */
+        .relatorio-lista {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,81 +191,186 @@
         </div>
 
         <div class="stats-grid">
-            <div class="stat-box">Vagas Livres<span id="vagas-disponiveis">50</span></div>
-            <div class="stat-box">No Pátio<span id="vagas-ocupadas">0</span></div>
-            <div class="stat-box">Faturamento<span id="faturamento">R$ 0.00</span></div>
+            <div class="stat-box">Vagas<span id="vagas-disponiveis">50</span></div>
+            <div class="stat-box">Pátio<span id="vagas-ocupadas">0</span></div>
+            <div class="stat-box">Caixa<span id="faturamento">R$ 0.00</span></div>
         </div>
 
         <div class="tabs">
-            <button class="tab-button active" onclick="mudarAba('entrada')">
-                <i class="fas fa-sign-in-alt"></i> Entrada
-            </button>
-            <button class="tab-button" onclick="mudarAba('saida')">
-                <i class="fas fa-car"></i> Saída
-            </button>
-            <button class="tab-button" onclick="mudarAba('relatorio')">
-                <i class="fas fa-chart-bar"></i> Relatórios
-            </button>
+            <button class="tab-button active" onclick="mudarAba('entrada')"><i class="fas fa-sign-in-alt"></i>
+                Entrada</button>
+            <button class="tab-button" onclick="mudarAba('saida')"><i class="fas fa-car"></i> Saída</button>
+            <button class="tab-button" onclick="mudarAba('relatorio')"><i class="fas fa-file-invoice"></i>
+                Relatório</button>
         </div>
 
         <div id="entrada" class="tab-content active">
             <div class="card">
                 <h3>Novo Cadastro</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Serviço</label>
-                        <select id="tipo-servico">
-                            <option value="25">Moto (R$ 25.00)</option>
-                            <option value="50" selected>Carro (R$ 50.00)</option>
-                            <option value="60">Carro Grande / Caminhão (R$ 60.00)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Cor</label>
-                        <input type="text" id="cor-veiculo" placeholder="Ex: Azul">
-                    </div>
+                <div class="form-group">
+                    <label>Serviço</label>
+                    <select id="tipo-servico">
+                        <option value="25">Moto (R$ 25.00)</option>
+                        <option value="25">Lavagem Externa Carro (R$ 25.00)</option>
+                        <option value="30">Lavagem Externa Carro G (R$ 30.00)</option>
+                        <option value="50" selected>Lavagem Completa Carro (R$ 50.00)</option>
+                        <option value="60">Carro G / Caminhão (R$ 60.00)</option>
+                    </select>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Modelo</label>
-                        <input type="text" id="modelo-veiculo" placeholder="Ex: Onix">
-                    </div>
-                    <div class="form-group">
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex: 1;">
                         <label>Placa</label>
                         <input type="text" id="placa-veiculo" placeholder="ABC-1234">
                     </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Cor</label>
+                        <input type="text" id="cor-veiculo" placeholder="Azul">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Modelo</label>
+                    <input type="text" id="modelo-veiculo" placeholder="Ex: Onix">
                 </div>
                 <button class="btn-primary" onclick="cadastrarEntrada()">Confirmar Entrada</button>
             </div>
         </div>
 
         <div id="saida" class="tab-content">
-            <h3>Veículos no Pátio</h3>
-            <div id="lista-veiculos">
+            <div class="card">
+                <h3>Veículos no Pátio</h3>
+                <div id="lista-veiculos"></div>
             </div>
         </div>
 
         <div id="relatorio" class="tab-content">
-            <h3>Gerar Relatórios</h3>
             <div class="card">
-                <label>Período:</label>
-                <select id="periodo-relatorio">
-                    <option value="diario">Hoje</option>
-                    <option value="semanal">Últimos 7 dias</option>
-                    <option value="mensal">Últimos 30 dias</option>
-                </select>
-                <button class="btn-primary" style="background: #28a745; margin-top: 15px;" onclick="baixarRelatorio()">
-                    <i class="fas fa-download"></i> Baixar Arquivo .txt
+                <h3>Gestão de Caixa</h3>
+                <button class="btn-primary" style="background: #28a745; margin-bottom: 10px;"
+                    onclick="baixarRelatorio()">
+                    <i class="fas fa-download"></i> Baixar Histórico Completo
                 </button>
+                <button class="btn-primary" style="background: #dc3545;" onclick="zerarCaixa()">
+                    <i class="fas fa-trash-alt"></i> Zerar Valor em Caixa
+                </button>
+
+                <h4 style="margin-top: 20px; color: var(--primary);">Resumo de Saídas</h4>
+                <div id="resumo-saidas" class="relatorio-lista">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="floating-btn" id="btn-flutuante">
-        <i class="fas fa-plus"></i>
-    </div>
+    <script>
+        let veiculosNoPatio = [];
+        let historicoVendas = [];
+        let totalFaturamento = 0;
+        const limiteVagas = 50;
 
-    <script src="script.js"></script>
+        function mudarAba(id) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function cadastrarEntrada() {
+            const placa = document.getElementById('placa-veiculo').value;
+            const servicoSelect = document.getElementById('tipo-servico');
+            const valor = parseFloat(servicoSelect.value);
+            const nomeServico = servicoSelect.options[servicoSelect.selectedIndex].text;
+
+            if (!placa) return alert("Digite a placa!");
+            if (veiculosNoPatio.length >= limiteVagas) return alert("Pátio lotado!");
+
+            const novo = {
+                placa: placa.toUpperCase(),
+                modelo: document.getElementById('modelo-veiculo').value || 'N/A',
+                cor: document.getElementById('cor-veiculo').value || 'N/A',
+                servico: nomeServico,
+                valor: valor,
+                hora: new Date().toLocaleTimeString()
+            };
+
+            veiculosNoPatio.push(novo);
+            atualizarInterface();
+            limparForm();
+        }
+
+        function registrarSaida(index) {
+            const veiculo = veiculosNoPatio[index];
+            totalFaturamento += veiculo.valor;
+
+            historicoVendas.push({
+                ...veiculo,
+                saida: new Date().toLocaleTimeString()
+            });
+
+            veiculosNoPatio.splice(index, 1);
+            atualizarInterface();
+        }
+
+        function atualizarInterface() {
+            // Stats
+            document.getElementById('vagas-ocupadas').innerText = veiculosNoPatio.length;
+            document.getElementById('vagas-disponiveis').innerText = limiteVagas - veiculosNoPatio.length;
+            document.getElementById('faturamento').innerText = `R$ ${totalFaturamento.toFixed(2)}`;
+
+            // Lista Pátio
+            const lista = document.getElementById('lista-veiculos');
+            lista.innerHTML = veiculosNoPatio.length === 0 ? '<p style="color:#777">Pátio vazio</p>' : '';
+            veiculosNoPatio.forEach((v, i) => {
+                lista.innerHTML += `
+                    <div class="veiculo-item">
+                        <div class="veiculo-info">
+                            <h4>${v.placa}</h4>
+                            <p>${v.modelo} - ${v.servico}</p>
+                        </div>
+                        <button class="btn-saida" onclick="registrarSaida(${i})">Sair</button>
+                    </div>`;
+            });
+
+            // Resumo Relatório
+            const resumo = document.getElementById('resumo-saidas');
+            resumo.innerHTML = '';
+            historicoVendas.forEach(h => {
+                resumo.innerHTML += `<div style="border-bottom: 1px solid #333; padding: 5px 0;">
+                    ${h.placa} - ${h.servico} - <b>R$ ${h.valor.toFixed(2)}</b>
+                </div>`;
+            });
+        }
+
+        function zerarCaixa() {
+            if (confirm("Deseja realmente zerar o faturamento? Isso não apaga o histórico de texto.")) {
+                totalFaturamento = 0;
+                atualizarInterface();
+            }
+        }
+
+        function baixarRelatorio() {
+            let conteudo = "RELATÓRIO DE VENDAS - LAVA JATO LOS PRIMOS\n";
+            conteudo += "Data: " + new Date().toLocaleDateString() + "\n";
+            conteudo += "-------------------------------------------\n";
+
+            historicoVendas.forEach(v => {
+                conteudo += `Placa: ${v.placa} | Serv: ${v.servico} | Valor: R$ ${v.valor.toFixed(2)} | Saída: ${v.saida}\n`;
+            });
+
+            conteudo += "-------------------------------------------\n";
+            conteudo += `TOTAL ACUMULADO NO PERÍODO: R$ ${totalFaturamento.toFixed(2)}\n`;
+
+            const blob = new Blob([conteudo], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `relatorio_lavajato_${new Date().getTime()}.txt`;
+            link.click();
+        }
+
+        function limparForm() {
+            document.getElementById('placa-veiculo').value = '';
+            document.getElementById('modelo-veiculo').value = '';
+            document.getElementById('cor-veiculo').value = '';
+        }
+    </script>
 </body>
 
 </html>
